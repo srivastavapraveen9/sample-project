@@ -16,12 +16,24 @@ spring:
       hibernate.format_sql: true
   kafka:
     bootstrap-servers: localhost:9092
+    listener:
+      missing-topics-fatal: false
     consumer:
       group-id: sample-group
       auto-offset-reset: earliest
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    properties:
+      reconnect.backoff.ms: 5000           # wait 5s before retry
+      reconnect.backoff.max.ms: 30000      # max wait between retries = 30s
+      retry.backoff.ms: 1000               # backoff between retries
+      request.timeout.ms: 15000            # timeout for each request
+      max.block.ms: 30000                  # producer init max wait
+      connections.max.idle.ms: 30000       # close idle connections after 30s
+      metadata.max.age.ms: 30000           # refresh metadata every 30s
+      # To stop after N retries (not infinite):
+      retries: 3
 server:
   port: 8082
 
