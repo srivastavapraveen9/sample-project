@@ -1,0 +1,15 @@
+# Use an official OpenJDK runtime as a parent image
+FROM openjdk:8-jdk-alpine
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the jar file into the container
+COPY target/order-service-0.0.1-SNAPSHOT.jar app.jar
+
+
+# Expose the port the Spring Boot app runs on
+EXPOSE 8080
+
+# Command to run the jar
+ENTRYPOINT ["java","-jar","app.jar"]

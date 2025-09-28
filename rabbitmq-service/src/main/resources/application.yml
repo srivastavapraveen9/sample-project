@@ -14,6 +14,16 @@ spring:
     show-sql: true
     properties:
       hibernate.format_sql: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    listener:
+      simple:
+        acknowledge-mode: manual  # can be auto, manual, or none
+
 server:
   port: 8080
 

@@ -15,7 +15,7 @@ spring:
     properties:
       hibernate.format_sql: true
 server:
-  port: 8081
+  port: 8080
 resilience4j:
   circuitbreaker:
     instances:

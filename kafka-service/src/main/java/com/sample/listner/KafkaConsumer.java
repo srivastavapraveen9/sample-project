@@ -9,9 +9,15 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class KafkaConsumer {
 
-	@KafkaListener(topics = "test-topic", groupId = "sample-group")
+	@KafkaListener(topics = "test-topic")
 	public void listen(String message) {
-		log.info("Message recieved from kafka: {}", message);
+		log.info("Message recieved from test-topic: {}", message);
+		System.out.println("Received: " + message);
+	}
+	
+	@KafkaListener(topics = "test-topic-2", groupId = "sample-group")
+	public void listen2(String message) {
+		log.info("Message recieved from test-topic-2: {}", message);
 		System.out.println("Received: " + message);
 	}
 

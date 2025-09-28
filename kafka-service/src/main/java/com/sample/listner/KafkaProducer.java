@@ -10,7 +10,7 @@ public class KafkaProducer {
 	private KafkaTemplate<String, String> kafkaTemplate;
 	
 	public void sendMessage(String msg) {
-	    kafkaTemplate.send("test-topic", msg);
+	    kafkaTemplate.send("test-topic-2", msg);
 	}
 	
 }
