@@ -14,5 +14,7 @@
         <module>order-service</module>
         <module>springboot-sample-java8</module>
         <module>kafka-service</module>
+        <module>redis-service</module>
+        <module>rabbitmq-service</module>
     </modules>
 </project>

@@ -1,0 +1,33 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /logs/application*.log
+
+    json.keys_under_root: true
+    json.add_error_key: true
+
+setup.ilm.enabled: false
+# ===========================
+# PROCESSORS (ADDED FOR INDEX CONTROL)
+# ===========================
+processors:
+  - add_host_metadata: ~
+
+# ===========================
+# OUTPUT TO ELASTICSEARCH
+# ===========================
+output.elasticsearch:
+  hosts: ["http://host.docker.internal:9200"]
+  # CUSTOM INDEX NAME (KEY CHANGE)
+  #index: "ms-log-%{[service.name]}-%{+yyyy.MM.dd}"
+  index: "ms-log-%{[service.name]:unknown}-%{+yyyy.MM.dd}"
+# ======================
+# TEMPLATE
+# ======================
+setup.template.name: "ms-log"
+setup.template.pattern: "ms-log-*"
+setup.template.enabled: true
+
+setup.kibana:
+  host: "http://host.docker.internal:5601"

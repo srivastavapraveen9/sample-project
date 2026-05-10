@@ -11,21 +11,23 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     properties:
       hibernate.format_sql: true
 server:
   port: 8080
-resilience4j:
-  circuitbreaker:
-    instances:
-      myService:
-        registerHealthIndicator: true
-        slidingWindowSize: 5
-        permittedNumberOfCallsInHalfOpenState: 2
-        failureRateThreshold: 50
-        waitDurationInOpenState: 10s
-        minimumNumberOfCalls: 2
 logging:
   level:
+    root: INFO
     org.elasticsearch.client: DEBUG
+#resilience:
+#  circuitbreaker:
+#    instances:
+#      myService:
+#        registerHealthIndicator: true
+#        slidingWindowSize: 5
+#        permittedNumberOfCallsInHalfOpenState: 2
+#        failureRateThreshold: 50
+#        waitDurationInOpenState: 10s
+#        minimumNumberOfCalls: 2
+
