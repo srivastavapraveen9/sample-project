@@ -11,6 +11,7 @@
 
     <modules>
         <module>ms-elastic</module>
+        <module>ms-common</module>
         <module>order-service</module>
         <module>springboot-sample-java8</module>
         <module>kafka-service</module>

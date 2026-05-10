@@ -1,56 +1,58 @@
 package com.sample.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.sample.entity.Employee;
+import com.sample.service.EmployeeService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.sample.entity.Employee;
-import com.sample.service.EmployeeService;
-
-import lombok.RequiredArgsConstructor;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/employees")
+@Slf4j
 public class EmployeeController {
 
-	private final EmployeeService service;
+    private final EmployeeService service;
 
-	@GetMapping
-	public List<Employee> getAllEmployees() {
-		return service.getAllEmployees();
-	}
+    @GetMapping
+    public List<Employee> getAllEmployees() {
+        return service.getAllEmployees();
+    }
 
-	@GetMapping("/{id}")
-	public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
-		return service.getEmployeeById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-	}
+    @GetMapping("/{id}")
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
+        return service.getEmployeeById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
 
-	@PostMapping
-	public ResponseEntity<Map<String, String>> createEmployee(@RequestBody Employee employee) {
-		service.saveEmployee(employee);
-		Map<String, String> map = new HashMap<>();
-		map.put("message", "Successfully created...");
-		return new ResponseEntity<>(map, HttpStatus.CREATED);
-	}
+    @PostMapping
+    public ResponseEntity<Map<String, String>> createEmployee(@RequestBody Employee employee) {
+        log.info("create employee request : {}", employee);
+        service.saveEmployee(employee);
+        Map<String, String> map = new HashMap<>();
+        map.put("message", "Successfully created...");
+        log.info("Successfully created employee");
+        return new ResponseEntity<>(map, HttpStatus.CREATED);
+    }
 
-	@PutMapping("/{id}")
-	public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
-		return service.getEmployeeById(id).map(existing -> {
-			existing.setName(employee.getName());
-			existing.setDepartment(employee.getDepartment());
-			existing.setSalary(employee.getSalary());
-			return ResponseEntity.ok(service.saveEmployee(existing));
-		}).orElse(ResponseEntity.notFound().build());
-	}
+    @PutMapping("/{id}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
+        return service.getEmployeeById(id).map(existing -> {
+            existing.setName(employee.getName());
+            existing.setDepartment(employee.getDepartment());
+            existing.setSalary(employee.getSalary());
+            return ResponseEntity.ok(service.saveEmployee(existing));
+        }).orElse(ResponseEntity.notFound().build());
+    }
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
-		service.deleteEmployee(id);
-		return ResponseEntity.noContent().build();
-	}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
+        service.deleteEmployee(id);
+        return ResponseEntity.noContent().build();
+    }
 }
